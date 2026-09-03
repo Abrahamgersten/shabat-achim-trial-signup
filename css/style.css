@@ -145,6 +145,57 @@ body {
 .how-card h3 { font-size: 1.04rem; color: var(--navy); margin-bottom: 8px; }
 .how-card p { color: var(--ink-soft); font-size: .94rem; }
 
+/* ===== Gallery (reused samples) ===== */
+.gallery { background: var(--white); }
+.gallery-block { margin-bottom: 40px; }
+.gallery-block-title { font-size: 1.2rem; color: var(--navy); font-weight: 800; margin-bottom: 6px; }
+.gallery-block-lede { color: var(--ink-soft); margin-bottom: 18px; max-width: 74ch; font-size: .96rem; }
+.gallery-note { color: var(--ink-soft); font-size: .92rem; margin-top: 6px; }
+.gallery-note a { color: var(--navy-2); font-weight: 700; }
+
+.ex-row { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+.ex-card {
+  background: var(--cream); border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--shadow-sm);
+}
+.ex-zoom { display: block; border: 0; background: none; padding: 0; cursor: zoom-in; width: 100%; }
+.ex-zoom img { width: 100%; height: 190px; object-fit: cover; object-position: top; }
+.ex-card-portrait .ex-zoom img { height: 260px; }
+.ex-card-landscape .ex-zoom img { height: 160px; }
+.ex-card figcaption { padding: 12px 14px 16px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.ex-card h4 { font-size: .98rem; color: var(--navy); }
+.ex-card figcaption p { color: var(--ink-soft); font-size: .86rem; }
+.ex-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 8px; }
+
+.btn-like {
+  display: inline-flex; align-items: center; gap: 6px; background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 999px; padding: 6px 12px; font-size: .84rem; font-weight: 700; cursor: pointer; color: var(--ink);
+  transition: border-color .15s, background .15s;
+}
+.btn-like:hover { border-color: var(--yellow); }
+.btn-like[aria-pressed="true"] { background: #fff3d9; border-color: var(--yellow-dark); }
+.btn-like .heart { display: inline-block; }
+.btn-like-lg { padding: 10px 20px; font-size: 1rem; }
+
+.btn-pdf {
+  display: inline-flex; align-items: center; gap: 6px; text-decoration: none; font-weight: 700; font-size: .84rem;
+  color: var(--navy-2); border-bottom: 2px solid var(--sky);
+}
+.btn-pdf:hover { color: var(--navy); border-color: var(--navy); }
+
+.selections-panel { background: var(--sky-light); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 24px; }
+.selections-panel h3 { font-size: .98rem; color: var(--navy); margin-bottom: 8px; }
+.selections-panel ul { padding-inline-start: 20px; color: var(--ink-soft); font-size: .9rem; margin: 0; }
+.selections-panel li { margin-bottom: 4px; }
+
+/* ===== Lightbox ===== */
+.lightbox { position: fixed; inset: 0; background: rgba(10, 18, 30, .86); z-index: 300; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.lightbox[hidden] { display: none; }
+.lightbox-inner { position: relative; max-width: min(90vw, 800px); max-height: 90vh; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.lightbox-inner img { max-height: 74vh; width: auto; border-radius: 10px; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+.lightbox-close { position: absolute; top: -44px; inset-inline-end: 0; background: #fff; border: 0; border-radius: 50%; width: 38px; height: 38px; font-size: 1.1rem; cursor: pointer; }
+.lightbox-actions { display: flex; gap: 14px; align-items: center; background: #fff; padding: 10px 16px; border-radius: 999px; box-shadow: var(--shadow); }
+
 /* ===== Signup form ===== */
 .signup { background: var(--white); }
 .signup-form-wrap { max-width: 640px; margin-inline: auto; }
