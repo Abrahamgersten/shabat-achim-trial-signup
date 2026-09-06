@@ -1,22 +1,24 @@
 (function () {
   "use strict";
 
-  /* ===================== sections (מדורים) catalog ===================== */
+  /* ===================== sections (מדורים) catalog - same examples as the samples site ===================== */
   var SECTIONS = [
-    { v: "דבר תורה", d: "דבר תורה" },
-    { v: "מסביב לשולחן", d: "סיפור פיקנטי מחיי התלמידים עם שאלות לדיון סביב השולחן (מומלץ)" },
-    { v: "מה בפרשה?", d: "סיכום תמציתי וקולע של פרשת השבוע" },
-    { v: "חידות א' ב'", d: "חידות על הפרשה, התשובות מסודרות לפי סדר הא' ב'" },
-    { v: "תפזורת", d: "תפזורת על פרשת השבוע" },
-    { v: "מה לעשות?", d: "הלכה מעשית הנוגעת לחיי התלמידים" },
-    { v: "זה באמת קרה!", d: "סיפור צדיקים קצר" },
-    { v: "נפלאות הבריאה", d: "תופעה פלאית בבריאה" },
-    { v: "תמונה בפרשה", d: "חידה בתמונות על פרשת השבוע" },
-    { v: "יש לי מושג!", d: "מושג יסוד ביהדות, מוסבר בקצרה" },
-    { v: "אור בהשכלה", d: "קטע 'הידעת' מעניין שמרחיב את ההשכלה והאופקים" },
-    { v: "סיפור בהמשכים", d: "סיפור הרפתקאות מאויר, פרק בכל שבוע" },
-    { v: "קומיקס", d: "קומיקס עם מסר ערכי" },
-    { v: "ככה זה בחיים", d: "מציג ומסביר בכל שבוע כישור חיים משמעותי אחר" }
+    { v: "דבר תורה", img: "section-01", d: "דבר תורה" },
+    { v: "מה בפרשה", img: "section-02", d: "תמצית הפרשה השבועית" },
+    { v: "חידות בתמונות", img: "section-03", d: "חידה בתמונות על הפרשה" },
+    { v: "חידות לפרשה", img: "section-04", d: "חידות א' עד ת' על הפרשה" },
+    { v: "מסביב לשולחן", img: "section-05", d: "סיפור ושאלות דיון למשפחה (מומלץ)" },
+    { v: "זה קרה באמת", img: "section-07", d: "סיפור צדיקים קצר" },
+    { v: "סיפור בהמשכים", img: "section-08", d: "סיפור הרפתקאות מאויר" },
+    { v: "קומיקס", img: "section-12", d: "קומיקס עם מסר ערכי" },
+    { v: "מצא את ההבדלים", img: "section-14", d: "מצא את ההבדלים" },
+    { v: "נפלאות הבריאה", img: "section-16", d: "נפלאות הבריאה" },
+    { v: "תפזורת", img: "section-17", d: "תפזורת על פרשת השבוע" },
+    { v: "בריא לדעת", img: "section-11", d: "בריא לדעת" },
+    { v: "יש לי מושג", img: "section-18", d: "שאלות ותשובות ביהדות" },
+    { v: "מלתא דבדיחותא", img: "section-15", d: "בדיחה קצרה" },
+    { v: "ככה זה בחיים", img: "section-20", d: "כישור חיים משמעותי, כל שבוע אחר" },
+    { v: "מה לעשות", img: "section-22", d: "הצעה לפעילות משפחתית" }
   ];
 
   function buildSectionsGroup(container, name) {
@@ -24,15 +26,23 @@
     SECTIONS.forEach(function (s, i) {
       var id = name + "_" + i;
       var label = document.createElement("label");
-      label.className = "choice-pill";
+      label.className = "choice-img-card";
       label.title = s.d;
       var input = document.createElement("input");
       input.type = "checkbox";
       input.name = name;
       input.id = id;
       input.value = s.v;
+      var img = document.createElement("img");
+      img.src = "assets/images/sections/" + s.img + ".webp";
+      img.alt = "דוגמה למדור " + s.v + " - " + s.d;
+      img.loading = "lazy";
+      var span = document.createElement("span");
+      span.className = "label";
+      span.textContent = s.v;
       label.appendChild(input);
-      label.appendChild(document.createTextNode(" " + s.v));
+      label.appendChild(img);
+      label.appendChild(span);
       container.appendChild(label);
     });
   }
@@ -262,9 +272,9 @@
     heardFrom: "entry.424039667",
     message: "entry.926088031",
     ageTier: "entry.1065344005",
-    sectionsUnified: "entry.2105447400",
-    sectionsYoung: "entry.1306328218",
-    sectionsOld: "entry.664373783",
+    sectionsUnified: "entry.911981268",
+    sectionsYoung: "entry.1405292591",
+    sectionsOld: "entry.481439215",
     characterLevel: "entry.1488134807",
     characterGender: "entry.86235126"
   };
