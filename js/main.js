@@ -1,18 +1,93 @@
 (function () {
   "use strict";
 
-  /* ===================== radio pill visual state ===================== */
-  document.querySelectorAll(".choice-pill input[type=radio]").forEach(function (input) {
-    input.addEventListener("change", function () {
-      var groupName = input.name;
-      document.querySelectorAll('input[name="' + groupName + '"]').forEach(function (sibling) {
-        sibling.closest(".choice-pill").classList.toggle("is-checked", sibling.checked);
+  /* ===================== sections (מדורים) catalog ===================== */
+  var SECTIONS = [
+    { v: "דבר תורה", d: "דבר תורה" },
+    { v: "מסביב לשולחן", d: "סיפור פיקנטי מחיי התלמידים עם שאלות לדיון סביב השולחן (מומלץ)" },
+    { v: "מה בפרשה?", d: "סיכום תמציתי וקולע של פרשת השבוע" },
+    { v: "חידות א' ב'", d: "חידות על הפרשה, התשובות מסודרות לפי סדר הא' ב'" },
+    { v: "תפזורת", d: "תפזורת על פרשת השבוע" },
+    { v: "מה לעשות?", d: "הלכה מעשית הנוגעת לחיי התלמידים" },
+    { v: "זה באמת קרה!", d: "סיפור צדיקים קצר" },
+    { v: "נפלאות הבריאה", d: "תופעה פלאית בבריאה" },
+    { v: "תמונה בפרשה", d: "חידה בתמונות על פרשת השבוע" },
+    { v: "יש לי מושג!", d: "מושג יסוד ביהדות, מוסבר בקצרה" },
+    { v: "אור בהשכלה", d: "קטע 'הידעת' מעניין שמרחיב את ההשכלה והאופקים" },
+    { v: "סיפור בהמשכים", d: "סיפור הרפתקאות מאויר, פרק בכל שבוע" },
+    { v: "קומיקס", d: "קומיקס עם מסר ערכי" },
+    { v: "ככה זה בחיים", d: "מציג ומסביר בכל שבוע כישור חיים משמעותי אחר" }
+  ];
+
+  function buildSectionsGroup(container, name) {
+    if (!container) return;
+    SECTIONS.forEach(function (s, i) {
+      var id = name + "_" + i;
+      var label = document.createElement("label");
+      label.className = "choice-pill";
+      label.title = s.d;
+      var input = document.createElement("input");
+      input.type = "checkbox";
+      input.name = name;
+      input.id = id;
+      input.value = s.v;
+      label.appendChild(input);
+      label.appendChild(document.createTextNode(" " + s.v));
+      container.appendChild(label);
+    });
+  }
+  buildSectionsGroup(document.querySelector('#sectionsUnifiedRow [data-sections-group]'), "sectionsUnified");
+  buildSectionsGroup(document.querySelector('#sectionsYoungRow [data-sections-group]'), "sectionsYoung");
+  buildSectionsGroup(document.querySelector('#sectionsOldRow [data-sections-group]'), "sectionsOld");
+
+  /* soft cap: disable further checkboxes once max reached in a group */
+  document.querySelectorAll("[data-sections-group]").forEach(function (group) {
+    var max = parseInt(group.getAttribute("data-max"), 10) || 4;
+    var counterEl = group.closest(".form-row").querySelector("[data-counter]");
+
+    function refresh() {
+      var boxes = group.querySelectorAll('input[type="checkbox"]');
+      var checkedCount = group.querySelectorAll('input[type="checkbox"]:checked').length;
+      if (counterEl) counterEl.textContent = String(checkedCount);
+      boxes.forEach(function (box) {
+        box.disabled = !box.checked && checkedCount >= max;
       });
+    }
+
+    group.addEventListener("change", refresh);
+    refresh();
+  });
+
+  /* ===================== age-tier toggles which sections group shows ===================== */
+  var ageTierInputs = document.querySelectorAll('input[name="ageTier"]');
+  var unifiedRow = document.getElementById("sectionsUnifiedRow");
+  var youngRow = document.getElementById("sectionsYoungRow");
+  var oldRow = document.getElementById("sectionsOldRow");
+
+  function syncAgeTierRows() {
+    var checked = document.querySelector('input[name="ageTier"]:checked');
+    var isTiered = checked && checked.value.indexOf("כן") === 0;
+    unifiedRow.hidden = !!isTiered;
+    youngRow.hidden = !isTiered;
+    oldRow.hidden = !isTiered;
+  }
+  ageTierInputs.forEach(function (input) { input.addEventListener("change", syncAgeTierRows); });
+  syncAgeTierRows();
+
+  /* ===================== radio/checkbox pill + image-card visual state ===================== */
+  document.querySelectorAll(".choice-pill input, .choice-img-card input").forEach(function (input) {
+    input.addEventListener("change", function () {
+      if (input.type === "radio") {
+        document.querySelectorAll('input[name="' + input.name + '"]').forEach(function (sibling) {
+          sibling.closest(".choice-pill, .choice-img-card").classList.toggle("is-checked", sibling.checked);
+        });
+      } else {
+        input.closest(".choice-pill, .choice-img-card").classList.toggle("is-checked", input.checked);
+      }
     });
   });
 
-  /* ===================== gallery selection state ===================== */
-  var GROUP_LABELS = { format: "עיצוב שאהבתם" };
+  /* ===================== gallery selection state (feeds "ז'אנר עיצובי") ===================== */
   var selections = {}; // key: group__id -> { group, id, label }
 
   function setLikeVisual(btn, selected) {
@@ -69,7 +144,6 @@
   function renderSelectionsUI() {
     var keys = Object.keys(selections);
     var count = keys.length;
-
     var panel = document.getElementById("selectionsPanel");
     var list = document.getElementById("selectionsList");
     if (panel && list) {
@@ -77,36 +151,18 @@
         panel.hidden = false;
         list.innerHTML = "";
         keys.forEach(function (k) {
-          var sel = selections[k];
           var li = document.createElement("li");
-          li.textContent = (GROUP_LABELS[sel.group] || sel.group) + ": " + sel.label;
+          li.textContent = selections[k].label;
           list.appendChild(li);
         });
       } else {
         panel.hidden = true;
       }
     }
-
-    syncDesignField();
   }
 
-  var designFieldDirty = false;
-
-  function buildDesignSummary() {
-    var labels = Object.keys(selections).map(function (k) { return selections[k].label; });
-    return labels.join(", ");
-  }
-
-  function syncDesignField() {
-    if (designFieldDirty) return;
-    var field = document.getElementById("f_design");
-    if (!field) return;
-    field.value = buildDesignSummary();
-  }
-
-  var designField = document.getElementById("f_design");
-  if (designField) {
-    designField.addEventListener("input", function () { designFieldDirty = true; });
+  function buildDesignGenreSummary() {
+    return Object.keys(selections).map(function (k) { return selections[k].label; }).join(", ");
   }
 
   /* ===================== like buttons (delegated) ===================== */
@@ -201,10 +257,16 @@
     altContact: "entry.2073179539",
     studentGender: "entry.1086938305",
     format: "entry.343222456",
-    designNote: "entry.1335475370",
+    designGenre: "entry.1335475370",
     contact: "entry.940452289",
     heardFrom: "entry.424039667",
-    message: "entry.926088031"
+    message: "entry.926088031",
+    ageTier: "entry.1065344005",
+    sectionsUnified: "entry.2105447400",
+    sectionsYoung: "entry.1306328218",
+    sectionsOld: "entry.664373783",
+    characterLevel: "entry.1488134807",
+    characterGender: "entry.86235126"
   };
 
   var form = document.getElementById("signupForm");
@@ -232,10 +294,23 @@
     fd.append(ENTRY.altContact, form.altContact.value.trim());
     fd.append(ENTRY.studentGender, (form.studentGender.value || ""));
     fd.append(ENTRY.format, (form.format.value || ""));
-    fd.append(ENTRY.designNote, form.designNote.value.trim());
+    fd.append(ENTRY.designGenre, buildDesignGenreSummary());
     fd.append(ENTRY.contact, form.contact.value.trim());
     fd.append(ENTRY.heardFrom, form.heardFrom.value.trim());
     fd.append(ENTRY.message, form.message.value.trim());
+    fd.append(ENTRY.characterLevel, (form.characterLevel.value || ""));
+    fd.append(ENTRY.characterGender, (form.characterGender.value || ""));
+
+    var ageTierChecked = document.querySelector('input[name="ageTier"]:checked');
+    var isTiered = ageTierChecked && ageTierChecked.value.indexOf("כן") === 0;
+    fd.append(ENTRY.ageTier, ageTierChecked ? ageTierChecked.value : "");
+
+    if (isTiered) {
+      document.querySelectorAll('input[name="sectionsYoung"]:checked').forEach(function (i) { fd.append(ENTRY.sectionsYoung, i.value); });
+      document.querySelectorAll('input[name="sectionsOld"]:checked').forEach(function (i) { fd.append(ENTRY.sectionsOld, i.value); });
+    } else {
+      document.querySelectorAll('input[name="sectionsUnified"]:checked').forEach(function (i) { fd.append(ENTRY.sectionsUnified, i.value); });
+    }
 
     fetch(FORM_ACTION, { method: "POST", mode: "no-cors", body: fd })
       .then(function () { onSubmitDone(true); })
