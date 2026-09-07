@@ -25,25 +25,41 @@
     if (!container) return;
     SECTIONS.forEach(function (s, i) {
       var id = name + "_" + i;
-      var label = document.createElement("label");
-      label.className = "choice-img-card";
-      label.title = s.d;
+      var imgSrc = "assets/images/sections/" + s.img + ".webp";
+      var altText = "דוגמה למדור " + s.v + " - " + s.d;
+
+      var card = document.createElement("div");
+      card.className = "choice-img-card";
+      card.setAttribute("data-id", "sec-" + s.img);
+      card.setAttribute("data-full", imgSrc);
+
+      var zoomBtn = document.createElement("button");
+      zoomBtn.type = "button";
+      zoomBtn.className = "ex-zoom";
+      zoomBtn.setAttribute("aria-label", "הגדלת דוגמה: " + s.v);
+      var img = document.createElement("img");
+      img.src = imgSrc;
+      img.alt = altText;
+      img.loading = "lazy";
+      zoomBtn.appendChild(img);
+
+      var pickLabel = document.createElement("label");
+      pickLabel.className = "pick-label";
+      pickLabel.title = s.d;
       var input = document.createElement("input");
       input.type = "checkbox";
       input.name = name;
       input.id = id;
       input.value = s.v;
-      var img = document.createElement("img");
-      img.src = "assets/images/sections/" + s.img + ".webp";
-      img.alt = "דוגמה למדור " + s.v + " - " + s.d;
-      img.loading = "lazy";
       var span = document.createElement("span");
       span.className = "label";
       span.textContent = s.v;
-      label.appendChild(input);
-      label.appendChild(img);
-      label.appendChild(span);
-      container.appendChild(label);
+      pickLabel.appendChild(input);
+      pickLabel.appendChild(span);
+
+      card.appendChild(zoomBtn);
+      card.appendChild(pickLabel);
+      container.appendChild(card);
     });
   }
   buildSectionsGroup(document.querySelector('#sectionsUnifiedRow [data-sections-group]'), "sectionsUnified");
@@ -83,6 +99,22 @@
   }
   ageTierInputs.forEach(function (input) { input.addEventListener("change", syncAgeTierRows); });
   syncAgeTierRows();
+
+  /* ===================== format choice reveals the matching gallery block ===================== */
+  var formatInputs = document.querySelectorAll('input[name="format"]');
+  var galleryHorizontalBlock = document.getElementById("galleryHorizontalBlock");
+  var galleryVerticalBlock = document.getElementById("galleryVerticalBlock");
+
+  function syncFormatGallery() {
+    var checked = document.querySelector('input[name="format"]:checked');
+    var val = checked ? checked.value : "";
+    var showHorizontal = val.indexOf("אופקי") === 0 || val.indexOf("בטוח") >= 0;
+    var showVertical = val.indexOf("אנכי") === 0 || val.indexOf("בטוח") >= 0;
+    if (galleryHorizontalBlock) galleryHorizontalBlock.hidden = !showHorizontal;
+    if (galleryVerticalBlock) galleryVerticalBlock.hidden = !showVertical;
+  }
+  formatInputs.forEach(function (input) { input.addEventListener("change", syncFormatGallery); });
+  syncFormatGallery();
 
   /* ===================== radio/checkbox pill + image-card visual state ===================== */
   document.querySelectorAll(".choice-pill input, .choice-img-card input").forEach(function (input) {
@@ -196,6 +228,7 @@
   var lightboxClose = document.getElementById("lightboxClose");
   var lightboxLike = document.getElementById("lightboxLike");
   var lightboxPdf = document.getElementById("lightboxPdf");
+  var lightboxActions = lightbox ? lightbox.querySelector(".lightbox-actions") : null;
   var lastFocused = null;
 
   function openLightbox(card) {
@@ -211,14 +244,19 @@
     lightboxImg.alt = img ? img.alt : label;
     lightbox.dataset.group = group;
     lightbox.dataset.id = id;
-    setLikeVisual(lightboxLike, isSelected(group, id));
 
+    // only full newsletter examples (which have a PDF) are "likeable" as a design genre;
+    // section/format preview images are zoom-only
     if (pdf) {
       lightboxPdf.href = pdf;
       lightboxPdf.hidden = false;
+      lightboxLike.hidden = false;
+      setLikeVisual(lightboxLike, isSelected(group, id));
     } else {
       lightboxPdf.hidden = true;
+      lightboxLike.hidden = true;
     }
+    if (lightboxActions) lightboxActions.hidden = !pdf;
 
     lastFocused = document.activeElement;
     lightbox.hidden = false;

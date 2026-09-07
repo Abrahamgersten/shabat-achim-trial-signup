@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=2">
+<link rel="stylesheet" href="css/style.css?v=3">
 </head>
 <body>
 
@@ -43,17 +43,12 @@
     <div class="wrap hero-grid">
       <div class="hero-copy">
         <p class="eyebrow">עלון פרשת שבוע לבתי ספר יסודיים דתיים</p>
-        <h1>מצטרפים לחודש התנסות חינם</h1>
-        <p class="hero-sub">טופס קצר אחד - ואנחנו נעצב לכם דוגמה אישית ונחזור אליכם לסגור את שאר הפרטים בשיחה. בלי התחייבות.</p>
+        <h1>הצטרפות לחודש התנסות חינם</h1>
+        <p class="hero-sub">טופס קצר להתחלת חודש התנסות חינם וללא התחייבות. נחזור אליכם לתאם את שאר הפרטים בשיחה.</p>
         <p class="hero-trust">בעידוד ובברכת <strong>הרב שלמה אבינר</strong> ו<strong>הרב שמואל אליהו</strong> שליט"א</p>
-        <ul class="trust-badges">
-          <li><span aria-hidden="true">✅</span> בלי התחייבות</li>
-          <li><span aria-hidden="true">🔓</span> בלי צורך להתחבר לגוגל</li>
-          <li><span aria-hidden="true">⏱️</span> לוקח כ-2 דקות</li>
-        </ul>
         <div class="hero-ctas">
           <a href="#signup" class="btn btn-primary btn-lg">למילוי הטופס</a>
-          <a href="https://abrahamgersten.github.io/shabat-achim-newsletter-samples/#gallery" class="btn btn-ghost btn-lg">עדיין לא בחרתי - רוצה לראות דוגמאות</a>
+          <a href="https://abrahamgersten.github.io/shabat-achim-newsletter-samples/#gallery" class="btn btn-ghost btn-lg">דוגמאות נוספות</a>
         </div>
       </div>
     </div>
@@ -81,11 +76,36 @@
   <!-- ============ GALLERY (reused samples) ============ -->
   <section class="section gallery" id="gallery">
     <div class="wrap">
-      <h2 class="section-title">בחרו ז'אנר עיצובי - דוגמאות מהעלונים שכבר הפקנו</h2>
-      <p class="section-lede">כאן בוחרים את הז'אנר העיצובי: סמנו "אהבתי" על מה שמדבר אליכם - זה ייחשב כבחירת הכיוון העיצובי שלכם בטופס למטה - ואפשר גם להגדיל כל תמונה או להוריד PDF מלא.</p>
+      <h2 class="section-title">עיצוב העלון</h2>
+      <p class="section-lede">העלון יוצא בפורמט אופקי (מתקפל) או אנכי (עומד). בחרו כיוון כדי לראות דוגמאות בפורמט הזה, ואפשר לסמן "אהבתי" על מה שמדבר אליכם - זה יעדכן את השדה המתאים בטופס למטה.</p>
 
-      <div class="gallery-block">
-        <h3 class="gallery-block-title">עלונים מאוזנים</h3>
+      <div class="format-picker-row" role="radiogroup" aria-label="פורמט העלון">
+        <div class="choice-img-card choice-img-card-lg" data-id="format-horizontal" data-full="assets/images/covers/horizontal-1-p1.webp">
+          <button class="ex-zoom" type="button" aria-label="הגדלת דוגמה לפורמט אופקי">
+            <img src="assets/images/covers/horizontal-1-p1.webp" alt="דוגמה לעלון בפורמט אופקי" loading="lazy">
+          </button>
+          <label class="pick-label">
+            <input type="radio" name="format" value="אופקי (מתקפל)" form="signupForm">
+            <span class="label">אופקי (מתקפל)</span>
+          </label>
+        </div>
+        <div class="choice-img-card choice-img-card-lg" data-id="format-vertical" data-full="assets/images/covers/vertical-1-p1.webp">
+          <button class="ex-zoom" type="button" aria-label="הגדלת דוגמה לפורמט אנכי">
+            <img src="assets/images/covers/vertical-1-p1.webp" alt="דוגמה לעלון בפורמט אנכי" loading="lazy">
+          </button>
+          <label class="pick-label">
+            <input type="radio" name="format" value="אנכי (עומד)" form="signupForm">
+            <span class="label">אנכי (עומד)</span>
+          </label>
+        </div>
+        <label class="choice-pill">
+          <input type="radio" name="format" value="עדיין לא בטוח/ה" form="signupForm">
+          עדיין לא בטוח/ה - להציג את כל הדוגמאות
+        </label>
+      </div>
+
+      <div class="gallery-block" id="galleryHorizontalBlock" hidden>
+        <h3 class="gallery-block-title">דוגמאות בפורמט אופקי</h3>
         <div class="ex-row" data-group="format">
           <figure class="ex-card ex-card-landscape" data-id="horizontal-1" data-pdf="assets/pdfs/horizontal-1.pdf" data-full="assets/images/covers/horizontal-1-p1.webp">
             <button class="ex-zoom" type="button">
@@ -171,8 +191,8 @@
         </div>
       </div>
 
-      <div class="gallery-block">
-        <h3 class="gallery-block-title">עלונים מאונכים</h3>
+      <div class="gallery-block" id="galleryVerticalBlock" hidden>
+        <h3 class="gallery-block-title">דוגמאות בפורמט אנכי</h3>
         <div class="ex-row" data-group="format">
           <figure class="ex-card ex-card-portrait" data-id="vertical-1" data-pdf="assets/pdfs/vertical-1.pdf" data-full="assets/images/covers/vertical-1-p1.webp">
             <button class="ex-zoom" type="button">
@@ -245,7 +265,7 @@
           </figure>
         </div>
       </div>
-      <p class="gallery-note"><a href="https://abrahamgersten.github.io/shabat-achim-newsletter-samples/#gallery">לעוד דוגמאות ומדורים אפשר לבקר באתר הדוגמאות המלא ←</a></p>
+      <p class="gallery-note"><a href="https://abrahamgersten.github.io/shabat-achim-newsletter-samples/#gallery">דוגמאות ומדורים נוספים באתר הדוגמאות המלא ←</a></p>
     </div>
   </section>
 
@@ -309,15 +329,6 @@
               <label class="choice-pill"><input type="radio" name="studentGender" value="בנים" required> בנים</label>
               <label class="choice-pill"><input type="radio" name="studentGender" value="בנות" required> בנות</label>
               <label class="choice-pill"><input type="radio" name="studentGender" value="גם בנים וגם בנות" required> גם בנים וגם בנות</label>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <label id="f_format_label">פורמט העלון <span class="hint">(לא חובה)</span></label>
-            <div class="choice-group" role="radiogroup" aria-labelledby="f_format_label">
-              <label class="choice-pill"><input type="radio" name="format" value="אופקי (מתקפל)"> אופקי (מתקפל)</label>
-              <label class="choice-pill"><input type="radio" name="format" value="אנכי (עומד)"> אנכי (עומד)</label>
-              <label class="choice-pill"><input type="radio" name="format" value="עדיין לא בטוח/ה"> עדיין לא בטוח/ה</label>
             </div>
           </div>
 
@@ -416,7 +427,7 @@
         </form>
 
         <div class="form-success" id="formSuccess" role="status" hidden>
-          <h3>תודה, קיבלנו! 🎉</h3>
+          <h3>תודה, קיבלנו את הפרטים</h3>
           <p>מישהו מהצוות שלנו יחזור אליכם בקרוב לסגור פרטים ולהתחיל את חודש ההתנסות. אם דחוף - אפשר גם לכתוב לנו ישירות למייל <a href="mailto:abrahamgersten@gmail.com">abrahamgersten@gmail.com</a>.</p>
         </div>
         <p class="form-error" id="formError" role="alert" hidden>אירעה תקלה בשליחה. אפשר לנסות שוב, או לכתוב לנו ישירות למייל <a href="mailto:abrahamgersten@gmail.com">abrahamgersten@gmail.com</a>.</p>
@@ -435,7 +446,7 @@
         </details>
         <details class="faq-item">
           <summary>עדיין לא בחרתי עיצוב - אפשר בכל זאת להתחיל?</summary>
-          <p>בהחלט. אפשר לסמן "עדיין לא בטוח/ה" בטופס, ואנחנו נעזור לכם לבחור בשיחה - או שאפשר קודם <a href="https://abrahamgersten.github.io/shabat-achim-newsletter-samples/#gallery">לעיין בדוגמאות</a>.</p>
+          <p>כן. אפשר לסמן "עדיין לא בטוח/ה" באפשרויות הפורמט למעלה, ולבחור בשיחה - או לעיין קודם <a href="https://abrahamgersten.github.io/shabat-achim-newsletter-samples/#gallery">בדוגמאות הנוספות</a>.</p>
         </details>
         <details class="faq-item">
           <summary>מה קורה עם הלוגו ופרטי העיצוב המדויקים?</summary>
