@@ -149,10 +149,33 @@ body {
 .gallery-note { color: var(--ink-soft); font-size: .92rem; margin-top: 6px; }
 .gallery-note a { color: var(--navy-2); font-weight: 700; }
 
-/* format picker: two example cards + fallback */
-.format-picker-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: center; margin-bottom: 36px; }
-.choice-img-card-lg { width: 220px; padding: 14px 12px; }
-.choice-img-card-lg .label { font-size: 1rem; margin-top: 2px; }
+/* format picker: two example cards (real proportions) + fallback */
+.format-picker { margin-bottom: 32px; }
+.format-picker-row { display: flex; flex-direction: column; align-items: center; gap: 20px; margin-bottom: 16px; }
+.format-pick-card {
+  position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  max-width: 300px; padding: 16px; text-align: center; cursor: pointer;
+  border: 2px solid var(--border); border-radius: var(--radius); background: var(--white);
+  transition: border-color .15s, background .15s;
+}
+.format-pick-card:has(input:checked) { border-color: var(--yellow-dark); background: #fff3d9; }
+.format-pick-card:has(input:focus-visible) { outline: 3px solid var(--yellow); outline-offset: 2px; }
+.format-pick-card.is-checked { border-color: var(--yellow-dark); background: #fff3d9; }
+.format-pick-card input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.format-media { position: relative; border-radius: var(--radius-sm); overflow: hidden; background: var(--cream); }
+.format-media img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.format-pick-card.is-horizontal .format-media { width: 260px; height: 184px; }
+.format-pick-card.is-vertical .format-media { width: 184px; height: 260px; }
+.format-pick-title { font-weight: 800; color: var(--navy); font-size: 1.05rem; }
+.format-pick-more { font-size: .86rem; color: var(--navy-2); font-weight: 700; }
+.zoom-icon-btn {
+  position: absolute; bottom: 8px; inset-inline-end: 8px; width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255,255,255,.94); border-radius: 50%; box-shadow: var(--shadow-sm);
+  font-size: 1.05rem; cursor: zoom-in; padding: 0; border: 0;
+}
+.zoom-icon-btn:hover { background: #fff; }
+.format-unsure-row { display: flex; justify-content: center; }
 
 .ex-row { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
 .ex-card {

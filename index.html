@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=3">
+<link rel="stylesheet" href="css/style.css?v=5">
 </head>
 <body>
 
@@ -79,29 +79,33 @@
       <h2 class="section-title">עיצוב העלון</h2>
       <p class="section-lede">העלון יוצא בפורמט אופקי (מתקפל) או אנכי (עומד). בחרו כיוון כדי לראות דוגמאות בפורמט הזה, ואפשר לסמן "אהבתי" על מה שמדבר אליכם - זה יעדכן את השדה המתאים בטופס למטה.</p>
 
-      <div class="format-picker-row" role="radiogroup" aria-label="פורמט העלון">
-        <div class="choice-img-card choice-img-card-lg" data-id="format-horizontal" data-full="assets/images/covers/horizontal-1-p1.webp">
-          <button class="ex-zoom" type="button" aria-label="הגדלת דוגמה לפורמט אופקי">
-            <img src="assets/images/covers/horizontal-1-p1.webp" alt="דוגמה לעלון בפורמט אופקי" loading="lazy">
-          </button>
-          <label class="pick-label">
+      <div class="format-picker" role="radiogroup" aria-label="פורמט העלון">
+        <div class="format-picker-row">
+          <label class="format-pick-card is-horizontal">
             <input type="radio" name="format" value="אופקי (מתקפל)" form="signupForm">
-            <span class="label">אופקי (מתקפל)</span>
+            <span class="format-media" data-id="format-horizontal" data-full="assets/images/covers/horizontal-1-p1.webp">
+              <img src="assets/images/covers/horizontal-1-p1.webp" alt="דוגמה לעלון בפורמט אופקי" loading="lazy">
+              <button class="ex-zoom zoom-icon-btn" type="button" aria-label="הגדלת הדוגמה לפורמט אופקי">🔍</button>
+            </span>
+            <span class="format-pick-title">אופקי (מתקפל)</span>
+            <span class="format-pick-more">לחיצה תציג עוד 5 דוגמאות אופקיות לבחירה ←</span>
           </label>
-        </div>
-        <div class="choice-img-card choice-img-card-lg" data-id="format-vertical" data-full="assets/images/covers/vertical-1-p1.webp">
-          <button class="ex-zoom" type="button" aria-label="הגדלת דוגמה לפורמט אנכי">
-            <img src="assets/images/covers/vertical-1-p1.webp" alt="דוגמה לעלון בפורמט אנכי" loading="lazy">
-          </button>
-          <label class="pick-label">
+          <label class="format-pick-card is-vertical">
             <input type="radio" name="format" value="אנכי (עומד)" form="signupForm">
-            <span class="label">אנכי (עומד)</span>
+            <span class="format-media" data-id="format-vertical" data-full="assets/images/covers/vertical-1-p1.webp">
+              <img src="assets/images/covers/vertical-1-p1.webp" alt="דוגמה לעלון בפורמט אנכי" loading="lazy">
+              <button class="ex-zoom zoom-icon-btn" type="button" aria-label="הגדלת הדוגמה לפורמט אנכי">🔍</button>
+            </span>
+            <span class="format-pick-title">אנכי (עומד)</span>
+            <span class="format-pick-more">לחיצה תציג עוד 4 דוגמאות אנכיות לבחירה ←</span>
           </label>
         </div>
-        <label class="choice-pill">
-          <input type="radio" name="format" value="עדיין לא בטוח/ה" form="signupForm">
-          עדיין לא בטוח/ה - להציג את כל הדוגמאות
-        </label>
+        <div class="format-unsure-row">
+          <label class="choice-pill">
+            <input type="radio" name="format" value="עדיין לא בטוח/ה" form="signupForm">
+            עדיין לא בטוח/ה - להציג את כל הדוגמאות
+          </label>
+        </div>
       </div>
 
       <div class="gallery-block" id="galleryHorizontalBlock" hidden>

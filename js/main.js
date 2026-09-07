@@ -117,14 +117,15 @@
   syncFormatGallery();
 
   /* ===================== radio/checkbox pill + image-card visual state ===================== */
-  document.querySelectorAll(".choice-pill input, .choice-img-card input").forEach(function (input) {
+  var PICK_SELECTOR = ".choice-pill, .choice-img-card, .format-pick-card";
+  document.querySelectorAll(".choice-pill input, .choice-img-card input, .format-pick-card input").forEach(function (input) {
     input.addEventListener("change", function () {
       if (input.type === "radio") {
         document.querySelectorAll('input[name="' + input.name + '"]').forEach(function (sibling) {
-          sibling.closest(".choice-pill, .choice-img-card").classList.toggle("is-checked", sibling.checked);
+          sibling.closest(PICK_SELECTOR).classList.toggle("is-checked", sibling.checked);
         });
       } else {
-        input.closest(".choice-pill, .choice-img-card").classList.toggle("is-checked", input.checked);
+        input.closest(PICK_SELECTOR).classList.toggle("is-checked", input.checked);
       }
     });
   });
@@ -274,6 +275,10 @@
     document.addEventListener("click", function (e) {
       var zoomBtn = e.target.closest(".ex-zoom");
       if (!zoomBtn) return;
+      if (zoomBtn.classList.contains("zoom-icon-btn")) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
       var card = zoomBtn.closest("[data-id]");
       if (card) openLightbox(card);
     });
